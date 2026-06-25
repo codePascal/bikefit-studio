@@ -29,5 +29,16 @@
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
-  }
+  },
+  "cSpell.words": [
+    "androidx",
+    "Bikefit",
+    "bikefitstudio",
+    "gradlew",
+    "imageio",
+    "jpackage",
+    "KOPS",
+    "Landmarker",
+    "venv"
+  ]
 }
