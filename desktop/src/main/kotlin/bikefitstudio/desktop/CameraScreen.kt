@@ -22,10 +22,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.withContext
 import bikefitstudio.biomechanics.AnkleAngleCalculator
 import bikefitstudio.biomechanics.BodySide
 import bikefitstudio.biomechanics.HipAngleCalculator
@@ -39,11 +35,14 @@ import bikefitstudio.fit.FitSummary
 import bikefitstudio.fit.RidingContext
 import bikefitstudio.pose.PoseFrame
 import bikefitstudio.pose.PoseProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
 
 /**
- * Live preview with the pose skeleton overlaid and live left-side knee/hip angles.
- * When a complete [calibration] is supplied, KOPS is computed at 3 o'clock frames using
- * the marked spindle.
+ * Live preview with the pose skeleton overlaid and live left-side knee/hip angles. When a complete
+ * [calibration] is supplied, KOPS is computed at 3 o'clock frames using the marked spindle.
  */
 @Composable
 fun CameraScreen(
@@ -55,9 +54,8 @@ fun CameraScreen(
     fitBias: FitBias = FitBias.DEFAULT,
     onFitReady: ((FitSummary) -> Unit)? = null
 ) {
-    val analyzer = remember(calibration) {
-        calibration?.takeIf { it.isComplete }?.let { BikeFitAnalyzer(it) }
-    }
+    val analyzer =
+        remember(calibration) { calibration?.takeIf { it.isComplete }?.let { BikeFitAnalyzer(it) } }
     var finishRequested by remember { mutableStateOf(false) }
     var bitmap by remember { mutableStateOf<ImageBitmap?>(null) }
     var imageWidth by remember { mutableStateOf(0) }
@@ -70,12 +68,14 @@ fun CameraScreen(
     var kopsReadout by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
-        val source = withContext(Dispatchers.IO) {
-            runCatching { sourceFactory() }.getOrElse {
-                status = "Failed to open source: ${it.message}"
-                null
-            }
-        } ?: return@LaunchedEffect
+        val source =
+            withContext(Dispatchers.IO) {
+                runCatching { sourceFactory() }
+                    .getOrElse {
+                        status = "Failed to open source: ${it.message}"
+                        null
+                    }
+            } ?: return@LaunchedEffect
 
         status = "Streaming @ ${"%.0f".format(source.frameRate)} fps"
         val frameDelayMs = (1000.0 / source.frameRate).toLong().coerceAtLeast(1L)
@@ -87,22 +87,27 @@ fun CameraScreen(
                 imageHeight = frame.image.height
                 frameCount = frame.frameNumber + 1
 
-                val detected = withContext(Dispatchers.IO) {
-                    poseProvider.detect(frame.image, frame.frameNumber, frame.timestampMs)
-                }
+                val detected =
+                    withContext(Dispatchers.IO) {
+                        poseProvider.detect(frame.image, frame.frameNumber, frame.timestampMs)
+                    }
                 pose = detected
                 if (detected != null) {
                     posesDetected++
                     readout = angleReadout(detected)
                     analyzer?.process(detected)
                     val cal = calibration
-                    if (cal != null && cal.isComplete &&
-                        KneeOverPedalOffset.isAtThreeOClock(detected, BodySide.LEFT, cal)
+                    if (
+                        cal != null &&
+                            cal.isComplete &&
+                            KneeOverPedalOffset.isAtThreeOClock(detected, BodySide.LEFT, cal)
                     ) {
-                        val kops = KneeOverPedalOffset.computeAtFrame(detected, BodySide.LEFT, cal, 0f)
+                        val kops =
+                            KneeOverPedalOffset.computeAtFrame(detected, BodySide.LEFT, cal, 0f)
                         if (kops.isValid) {
-                            kopsReadout = "KOPS @3 o'clock: ${kops.alignment} " +
-                                "(offset ${"%.3f".format(kops.normalizedOffset)})"
+                            kopsReadout =
+                                "KOPS @3 o'clock: ${kops.alignment} " +
+                                    "(offset ${"%.3f".format(kops.normalizedOffset)})"
                         }
                     }
                 }
@@ -152,7 +157,9 @@ fun CameraScreen(
                     modifier = Modifier.fillMaxSize()
                 )
                 pose?.let { PoseOverlay(it, imageWidth, imageHeight, Modifier.matchParentSize()) }
-                calibration?.let { ReferenceOverlay(it, pose, imageWidth, imageHeight, Modifier.matchParentSize()) }
+                calibration?.let {
+                    ReferenceOverlay(it, pose, imageWidth, imageHeight, Modifier.matchParentSize())
+                }
             } else {
                 Text("Waiting for first frame…")
             }
@@ -163,9 +170,13 @@ fun CameraScreen(
 private fun angleReadout(pose: PoseFrame): String {
     val knee = KneeAngleCalculator.calculateKneeAngleFromLandmarks(pose.landmarks, BodySide.LEFT)
     val hip = HipAngleCalculator.calculateHipAngleFromLandmarks(pose.landmarks, BodySide.LEFT)
-    val torso = TorsoAngleCalculator.calculateTorsoAngleFromLandmarks(
-        pose.landmarks, BodySide.LEFT, imageWidth = pose.imageWidth, imageHeight = pose.imageHeight
-    )
+    val torso =
+        TorsoAngleCalculator.calculateTorsoAngleFromLandmarks(
+            pose.landmarks,
+            BodySide.LEFT,
+            imageWidth = pose.imageWidth,
+            imageHeight = pose.imageHeight
+        )
     val ankle = AnkleAngleCalculator.calculateAnkleAngleFromLandmarks(pose.landmarks, BodySide.LEFT)
     fun fmt(valid: Boolean, angle: Float) = if (valid) "${"%.0f".format(angle)}°" else "—"
     return "Knee ${fmt(knee.isValid, knee.angle)}   " +

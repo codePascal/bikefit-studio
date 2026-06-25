@@ -2,10 +2,10 @@ package bikefitstudio.desktop
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -44,9 +44,13 @@ import java.io.File
 
 private sealed interface Route {
     data object Home : Route
+
     data object SelfTest : Route
+
     data class Calibrate(val image: BufferedImage, val factory: () -> FrameSource) : Route
+
     data class Camera(val factory: () -> FrameSource, val calibration: BikeCalibration?) : Route
+
     data class Report(val summary: FitSummary) : Route
 }
 
@@ -60,46 +64,49 @@ fun App() {
 
         Surface(modifier = Modifier.fillMaxSize()) {
             when (val r = route) {
-                Route.Home -> HomeScreen(
-                    ridingContext = ridingContext,
-                    fitBias = fitBias,
-                    onContext = { ridingContext = it },
-                    onBias = { fitBias = it },
-                    onWebcam = { route = Route.Camera({ JavaCvFrameSource.forWebcam(0) }, null) },
-                    onVideoFile = {
-                        chooseVideoFile()?.let { path ->
-                            route = Route.Camera({ JavaCvFrameSource.forVideoFile(path) }, null)
-                        }
-                    },
-                    onCalibrate = {
-                        chooseVideoFile()?.let { path ->
-                            val factory = { JavaCvFrameSource.forVideoFile(path) }
-                            grabFirstFrame(factory)?.let { image ->
-                                route = Route.Calibrate(image, factory)
+                Route.Home ->
+                    HomeScreen(
+                        ridingContext = ridingContext,
+                        fitBias = fitBias,
+                        onContext = { ridingContext = it },
+                        onBias = { fitBias = it },
+                        onWebcam = {
+                            route = Route.Camera({ JavaCvFrameSource.forWebcam(0) }, null)
+                        },
+                        onVideoFile = {
+                            chooseVideoFile()?.let { path ->
+                                route = Route.Camera({ JavaCvFrameSource.forVideoFile(path) }, null)
                             }
-                        }
-                    },
-                    onSelfTest = { route = Route.SelfTest }
-                )
+                        },
+                        onCalibrate = {
+                            chooseVideoFile()?.let { path ->
+                                val factory = { JavaCvFrameSource.forVideoFile(path) }
+                                grabFirstFrame(factory)?.let { image ->
+                                    route = Route.Calibrate(image, factory)
+                                }
+                            }
+                        },
+                        onSelfTest = { route = Route.SelfTest }
+                    )
                 Route.SelfTest -> SelfTestScreen(onBack = { route = Route.Home })
-                is Route.Calibrate -> CalibrationScreen(
-                    image = r.image,
-                    onDone = { calibration -> route = Route.Camera(r.factory, calibration) },
-                    onBack = { route = Route.Home }
-                )
-                is Route.Camera -> CameraScreen(
-                    sourceFactory = r.factory,
-                    poseProvider = poseProvider,
-                    onBack = { route = Route.Home },
-                    calibration = r.calibration,
-                    ridingContext = ridingContext,
-                    fitBias = fitBias,
-                    onFitReady = { summary -> route = Route.Report(summary) }
-                )
-                is Route.Report -> FitReportScreen(
-                    summary = r.summary,
-                    onBack = { route = Route.Home }
-                )
+                is Route.Calibrate ->
+                    CalibrationScreen(
+                        image = r.image,
+                        onDone = { calibration -> route = Route.Camera(r.factory, calibration) },
+                        onBack = { route = Route.Home }
+                    )
+                is Route.Camera ->
+                    CameraScreen(
+                        sourceFactory = r.factory,
+                        poseProvider = poseProvider,
+                        onBack = { route = Route.Home },
+                        calibration = r.calibration,
+                        ridingContext = ridingContext,
+                        fitBias = fitBias,
+                        onFitReady = { summary -> route = Route.Report(summary) }
+                    )
+                is Route.Report ->
+                    FitReportScreen(summary = r.summary, onBack = { route = Route.Home })
             }
         }
     }
@@ -126,7 +133,9 @@ private fun HomeScreen(
         Text("Reused biomechanics core running on the JVM.")
         Spacer(Modifier.height(20.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            DropdownSelector("Context: ${ridingContext.displayName}", RidingContext.entries) { onContext(it) }
+            DropdownSelector("Context: ${ridingContext.displayName}", RidingContext.entries) {
+                onContext(it)
+            }
             Spacer(Modifier.width(12.dp))
             DropdownSelector("Bias: ${fitBias.displayName}", FitBias.entries) { onBias(it) }
         }
@@ -149,7 +158,10 @@ private fun <T> DropdownSelector(label: String, options: List<T>, onSelect: (T) 
         options.forEach { option ->
             DropdownMenuItem(
                 text = { Text(option.toString()) },
-                onClick = { onSelect(option); expanded = false }
+                onClick = {
+                    onSelect(option)
+                    expanded = false
+                }
             )
         }
     }
@@ -185,26 +197,26 @@ private fun grabFirstFrame(factory: () -> FrameSource): BufferedImage? {
 }
 
 /**
- * Calls the reused biomechanics core to prove the desktop module links against it.
- * Mirrors the "knee forward of spindle" scenario from the core unit tests.
+ * Calls the reused biomechanics core to prove the desktop module links against it. Mirrors the
+ * "knee forward of spindle" scenario from the core unit tests.
  */
 private fun coreSelfTest(): String {
-    val landmarks = MutableList(PoseLandmarkIndex.LANDMARK_COUNT) {
-        Landmark(0f, 0f, 0f, 1f, 1f)
-    }
+    val landmarks = MutableList(PoseLandmarkIndex.LANDMARK_COUNT) { Landmark(0f, 0f, 0f, 1f, 1f) }
     landmarks[PoseLandmarkIndex.LEFT_HIP] = Landmark(0.3f, 0.3f, 0f, 1f, 1f)
     landmarks[PoseLandmarkIndex.LEFT_KNEE] = Landmark(0.7f, 0.5f, 0f, 1f, 1f)
     landmarks[PoseLandmarkIndex.LEFT_FOOT_INDEX] = Landmark(0.6f, 0.6f, 0f, 1f, 1f)
     val frame = PoseFrame(1L, 100L, landmarks, 0.9f)
 
-    val calibration = BikeCalibration(
-        saddleTop = BikeReferencePoint(BikeReferencePointType.SADDLE_TOP, 0.5f, 0.2f),
-        bottomBracket = BikeReferencePoint(BikeReferencePointType.BOTTOM_BRACKET, 0.5f, 0.6f),
-        handlebar = BikeReferencePoint(BikeReferencePointType.HANDLEBAR, 0.5f, 0.1f),
-        crankLengthMm = 172
-    )
+    val calibration =
+        BikeCalibration(
+            saddleTop = BikeReferencePoint(BikeReferencePointType.SADDLE_TOP, 0.5f, 0.2f),
+            bottomBracket = BikeReferencePoint(BikeReferencePointType.BOTTOM_BRACKET, 0.5f, 0.6f),
+            handlebar = BikeReferencePoint(BikeReferencePointType.HANDLEBAR, 0.5f, 0.1f),
+            crankLengthMm = 172
+        )
 
-    val result = KneeOverPedalOffset.computeAtFrame(frame, BodySide.LEFT, calibration, crankScale = 0.1f)
+    val result =
+        KneeOverPedalOffset.computeAtFrame(frame, BodySide.LEFT, calibration, crankScale = 0.1f)
     return "valid=${result.isValid}  alignment=${result.alignment}  " +
         "normalizedOffset=${"%.3f".format(result.normalizedOffset)}  spindleX=${result.spindleX}"
 }

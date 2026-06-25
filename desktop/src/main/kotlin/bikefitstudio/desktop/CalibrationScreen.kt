@@ -35,23 +35,20 @@ import bikefitstudio.calibration.BikeReferencePoint
 import bikefitstudio.calibration.BikeReferencePointType
 import java.awt.image.BufferedImage
 
-private val STEPS = listOf(
-    BikeReferencePointType.SADDLE_TOP to "saddle top",
-    BikeReferencePointType.BOTTOM_BRACKET to "bottom bracket",
-    BikeReferencePointType.SPINDLE to "pedal spindle (crank at 3 o'clock)",
-    BikeReferencePointType.HANDLEBAR to "handlebar"
-)
+private val STEPS =
+    listOf(
+        BikeReferencePointType.SADDLE_TOP to "saddle top",
+        BikeReferencePointType.BOTTOM_BRACKET to "bottom bracket",
+        BikeReferencePointType.SPINDLE to "pedal spindle (crank at 3 o'clock)",
+        BikeReferencePointType.HANDLEBAR to "handlebar"
+    )
 
 /**
  * Click-to-mark calibration: the user taps the four bike reference points on a still frame and
  * enters the crank length, producing a [BikeCalibration].
  */
 @Composable
-fun CalibrationScreen(
-    image: BufferedImage,
-    onDone: (BikeCalibration) -> Unit,
-    onBack: () -> Unit
-) {
+fun CalibrationScreen(image: BufferedImage, onDone: (BikeCalibration) -> Unit, onBack: () -> Unit) {
     val bitmap = remember(image) { image.toComposeImageBitmap() }
     val points = remember { mutableStateMapOf<BikeReferencePointType, BikeReferencePoint>() }
     var stepIndex by remember { mutableStateOf(0) }
@@ -62,8 +59,9 @@ fun CalibrationScreen(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Button(onClick = onBack) { Text("Back") }
             Spacer(Modifier.width(12.dp))
-            val instruction = if (stepIndex < STEPS.size) "Click the ${STEPS[stepIndex].second}"
-            else "All points marked — set crank length and start"
+            val instruction =
+                if (stepIndex < STEPS.size) "Click the ${STEPS[stepIndex].second}"
+                else "All points marked — set crank length and start"
             Text(instruction)
         }
         Spacer(Modifier.height(8.dp))
@@ -77,7 +75,14 @@ fun CalibrationScreen(
             )
             Spacer(Modifier.width(12.dp))
             if (points.isNotEmpty()) {
-                Button(onClick = { points.clear(); stepIndex = 0 }) { Text("Reset points") }
+                Button(
+                    onClick = {
+                        points.clear()
+                        stepIndex = 0
+                    }
+                ) {
+                    Text("Reset points")
+                }
                 Spacer(Modifier.width(12.dp))
             }
             val crank = crankText.toIntOrNull()
@@ -95,23 +100,27 @@ fun CalibrationScreen(
                         )
                     )
                 }
-            ) { Text("Start analysis") }
+            ) {
+                Text("Start analysis")
+            }
         }
         Spacer(Modifier.height(8.dp))
 
         Box(
-            modifier = Modifier.fillMaxSize()
-                .onSizeChanged { boxSize = it }
-                .pointerInput(stepIndex) {
-                    detectTapGestures { offset ->
-                        if (stepIndex >= STEPS.size) return@detectTapGestures
-                        val norm = toNormalized(offset, boxSize, image.width, image.height)
-                            ?: return@detectTapGestures
-                        val type = STEPS[stepIndex].first
-                        points[type] = BikeReferencePoint(type, norm.first, norm.second)
-                        stepIndex += 1
+            modifier =
+                Modifier.fillMaxSize()
+                    .onSizeChanged { boxSize = it }
+                    .pointerInput(stepIndex) {
+                        detectTapGestures { offset ->
+                            if (stepIndex >= STEPS.size) return@detectTapGestures
+                            val norm =
+                                toNormalized(offset, boxSize, image.width, image.height)
+                                    ?: return@detectTapGestures
+                            val type = STEPS[stepIndex].first
+                            points[type] = BikeReferencePoint(type, norm.first, norm.second)
+                            stepIndex += 1
+                        }
                     }
-                }
         ) {
             Image(
                 bitmap = bitmap,
@@ -119,7 +128,12 @@ fun CalibrationScreen(
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.fillMaxSize()
             )
-            CalibrationMarkers(points.values.toList(), image.width, image.height, Modifier.matchParentSize())
+            CalibrationMarkers(
+                points.values.toList(),
+                image.width,
+                image.height,
+                Modifier.matchParentSize()
+            )
         }
     }
 }
@@ -149,7 +163,12 @@ private fun CalibrationMarkers(
 }
 
 /** Maps a tap in the Box to normalized image coordinates, accounting for ContentScale.Fit. */
-private fun toNormalized(offset: Offset, box: IntSize, imageWidth: Int, imageHeight: Int): Pair<Float, Float>? {
+private fun toNormalized(
+    offset: Offset,
+    box: IntSize,
+    imageWidth: Int,
+    imageHeight: Int
+): Pair<Float, Float>? {
     if (box.width == 0 || box.height == 0 || imageWidth == 0 || imageHeight == 0) return null
     val scale = minOf(box.width.toFloat() / imageWidth, box.height.toFloat() / imageHeight)
     val dispW = imageWidth * scale

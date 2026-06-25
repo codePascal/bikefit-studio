@@ -18,4 +18,5 @@ dependencyResolutionManagement {
 rootProject.name = "bikefit-studio"
 
 include("core")
+
 include("desktop")

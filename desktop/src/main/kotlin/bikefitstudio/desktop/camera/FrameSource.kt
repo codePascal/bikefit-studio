@@ -2,19 +2,13 @@ package bikefitstudio.desktop.camera
 
 import java.awt.image.BufferedImage
 
-/**
- * A single decoded frame with the metadata the core pipeline needs.
- */
-data class CapturedFrame(
-    val image: BufferedImage,
-    val frameNumber: Long,
-    val timestampMs: Long
-)
+/** A single decoded frame with the metadata the core pipeline needs. */
+data class CapturedFrame(val image: BufferedImage, val frameNumber: Long, val timestampMs: Long)
 
 /**
- * Platform-agnostic source of video frames — a webcam, a USB phone exposed as a webcam,
- * or a video file. Implementations decode to [BufferedImage] so they feed straight into the
- * reused core via [bikefitstudio.pose.PoseProvider].
+ * Platform-agnostic source of video frames — a webcam, a USB phone exposed as a webcam, or a video
+ * file. Implementations decode to [BufferedImage] so they feed straight into the reused core via
+ * [bikefitstudio.pose.PoseProvider].
  */
 interface FrameSource : AutoCloseable {
 

@@ -1,22 +1,21 @@
 package bikefitstudio.desktop.camera
 
+import java.awt.image.BufferedImage
 import org.bytedeco.javacv.FFmpegFrameGrabber
 import org.bytedeco.javacv.FrameGrabber
 import org.bytedeco.javacv.Java2DFrameConverter
 import org.bytedeco.javacv.OpenCVFrameGrabber
-import java.awt.image.BufferedImage
 
 /**
  * [FrameSource] backed by JavaCV (OpenCV + FFmpeg).
  *
- * Use [forVideoFile] for a recorded clip, or [forWebcam] for a live camera. A USB phone
- * running in UVC webcam mode (Android 14 native, or DroidCam/Iriun) simply appears as another
- * camera index, so [forWebcam] handles it with no extra code.
+ * Use [forVideoFile] for a recorded clip, or [forWebcam] for a live camera. A USB phone running in
+ * UVC webcam mode (Android 14 native, or DroidCam/Iriun) simply appears as another camera index, so
+ * [forWebcam] handles it with no extra code.
  */
-class JavaCvFrameSource private constructor(
-    private val grabber: FrameGrabber,
-    override val frameRate: Double
-) : FrameSource {
+class JavaCvFrameSource
+private constructor(private val grabber: FrameGrabber, override val frameRate: Double) :
+    FrameSource {
 
     private val converter = Java2DFrameConverter()
     private var index = 0L

@@ -15,11 +15,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
-    }
-}
+kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_17) } }
 
 dependencies {
     implementation(project(":core"))
@@ -51,10 +47,12 @@ tasks.register<JavaExec>("smokeTest") {
     dependsOn("classes")
     mainClass.set("bikefitstudio.desktop.SmokeMainKt")
     classpath = sourceSets["main"].runtimeClasspath
-    val smokeArgs = mutableListOf(
-        project.findProperty("poseScript")?.toString() ?: rootProject.file("pose_server_fake.py").absolutePath,
-        project.findProperty("posePython")?.toString() ?: "python"
-    )
+    val smokeArgs =
+        mutableListOf(
+            project.findProperty("poseScript")?.toString()
+                ?: rootProject.file("pose_server_fake.py").absolutePath,
+            project.findProperty("posePython")?.toString() ?: "python"
+        )
     project.findProperty("poseImage")?.toString()?.let { smokeArgs.add(it) }
     args(smokeArgs)
 }
@@ -66,4 +64,20 @@ tasks.register<JavaExec>("fitSmoke") {
     dependsOn("classes")
     mainClass.set("bikefitstudio.desktop.FitSmokeMainKt")
     classpath = sourceSets["main"].runtimeClasspath
+}
+
+// Headless end-to-end smoke over a real video file (JavaCV decode + MediaPipe sidecar).
+//   ./gradlew :desktop:videoSmoke -PvideoPath=<abs> -PposePython=python -PposeScript=<abs>
+tasks.register<JavaExec>("videoSmoke") {
+    group = "verification"
+    description = "Runs VideoSmokeMain: decode a video and run the real pose backend over it."
+    dependsOn("classes")
+    mainClass.set("bikefitstudio.desktop.VideoSmokeMainKt")
+    classpath = sourceSets["main"].runtimeClasspath
+    args(
+        project.findProperty("videoPath")?.toString() ?: "",
+        project.findProperty("posePython")?.toString() ?: "python",
+        project.findProperty("poseScript")?.toString()
+            ?: rootProject.file("pose_server.py").absolutePath
+    )
 }

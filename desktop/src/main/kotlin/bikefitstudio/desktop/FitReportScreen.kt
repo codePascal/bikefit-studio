@@ -15,12 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import bikefitstudio.fit.FitSummary
 
-/** Renders the [FitSummary] produced by [BikeFitAnalyzer]: grade, then prioritized recommendations. */
+/**
+ * Renders the [FitSummary] produced by [BikeFitAnalyzer]: grade, then prioritized recommendations.
+ */
 @Composable
 fun FitReportScreen(summary: FitSummary, onBack: () -> Unit) {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp).verticalScroll(rememberScrollState())
-    ) {
+    Column(modifier = Modifier.fillMaxSize().padding(24.dp).verticalScroll(rememberScrollState())) {
         Button(onClick = onBack) { Text("Back to home") }
         Spacer(Modifier.height(16.dp))
         Text("Fit report", style = MaterialTheme.typography.headlineMedium)
@@ -36,12 +36,14 @@ fun FitReportScreen(summary: FitSummary, onBack: () -> Unit) {
                 if (summary.cycleCount == 0)
                     "Not enough complete pedal cycles were detected. Use a side-on clip of several " +
                         "full pedal strokes with the bottom bracket and spindle clearly visible."
-                else
-                    "No fit issues detected for the analyzed cycles."
+                else "No fit issues detected for the analyzed cycles."
             )
         } else {
             summary.recommendations.forEach { rec ->
-                Text("[${rec.severity}]  ${rec.title}", style = MaterialTheme.typography.titleMedium)
+                Text(
+                    "[${rec.severity}]  ${rec.title}",
+                    style = MaterialTheme.typography.titleMedium
+                )
                 Spacer(Modifier.height(2.dp))
                 Text(rec.description)
                 Spacer(Modifier.height(2.dp))

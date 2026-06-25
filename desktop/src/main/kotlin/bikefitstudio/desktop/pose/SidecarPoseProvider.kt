@@ -14,32 +14,30 @@ import javax.imageio.ImageIO
 /**
  * [PoseProvider] backed by a Python sidecar process (see pose_server.py).
  *
- * Protocol (binary in, text out, one exchange per frame):
- *   Kotlin -> Python : 4-byte big-endian length N, then N bytes of JPEG.
- *   Python -> Kotlin : one line — either "NONE", or 33*5 space-separated floats
- *                      (x y z visibility presence per landmark).
- * A length of 0 tells the server to exit.
+ * Protocol (binary in, text out, one exchange per frame): Kotlin -> Python : 4-byte big-endian
+ * length N, then N bytes of JPEG. Python -> Kotlin : one line — either "NONE", or 33*5
+ * space-separated floats (x y z visibility presence per landmark). A length of 0 tells the server
+ * to exit.
  *
- * This keeps the same 33-landmark BlazePose schema the Android app uses, so all reused
- * biomechanics work unchanged.
+ * This keeps the same 33-landmark BlazePose schema the Android app uses, so all reused biomechanics
+ * work unchanged.
  */
-class SidecarPoseProvider(
-    scriptPath: String,
-    pythonExe: String = "python"
-) : PoseProvider {
+class SidecarPoseProvider(scriptPath: String, pythonExe: String = "python") : PoseProvider {
 
-    private val process: Process = ProcessBuilder(pythonExe, scriptPath)
-        .redirectError(ProcessBuilder.Redirect.INHERIT) // surface the server's stderr/logs
-        .start()
+    private val process: Process =
+        ProcessBuilder(pythonExe, scriptPath)
+            .redirectError(ProcessBuilder.Redirect.INHERIT) // surface the server's stderr/logs
+            .start()
 
     private val toServer = DataOutputStream(process.outputStream.buffered())
     private val fromServer = BufferedReader(InputStreamReader(process.inputStream))
 
     override fun detect(image: BufferedImage, frameNumber: Long, timestampMs: Long): PoseFrame? {
-        val jpeg = ByteArrayOutputStream().use { bos ->
-            ImageIO.write(ensureRgb(image), "jpg", bos)
-            bos.toByteArray()
-        }
+        val jpeg =
+            ByteArrayOutputStream().use { bos ->
+                ImageIO.write(ensureRgb(image), "jpg", bos)
+                bos.toByteArray()
+            }
 
         return synchronized(this) {
             if (!process.isAlive) return@synchronized null
@@ -80,7 +78,12 @@ class SidecarPoseProvider(
     }
 
     override fun close() {
-        runCatching { synchronized(this) { toServer.writeInt(0); toServer.flush() } } // sentinel: stop
+        runCatching {
+            synchronized(this) {
+                toServer.writeInt(0)
+                toServer.flush()
+            }
+        } // sentinel: stop
         runCatching { toServer.close() }
         runCatching { fromServer.close() }
         runCatching { process.waitFor() }
@@ -88,7 +91,8 @@ class SidecarPoseProvider(
     }
 
     private fun ensureRgb(src: BufferedImage): BufferedImage {
-        if (src.type == BufferedImage.TYPE_INT_RGB || src.type == BufferedImage.TYPE_3BYTE_BGR) return src
+        if (src.type == BufferedImage.TYPE_INT_RGB || src.type == BufferedImage.TYPE_3BYTE_BGR)
+            return src
         val out = BufferedImage(src.width, src.height, BufferedImage.TYPE_INT_RGB)
         val g = out.createGraphics()
         g.drawImage(src, 0, 0, null)
