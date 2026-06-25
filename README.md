@@ -49,14 +49,11 @@ to a no-op pose backend (preview still works, but no landmarks).
 
 ```powershell
 ./gradlew :desktop:run            # launch the GUI app
-./gradlew :core:test              # run the reused core unit tests (952)
-./gradlew :desktop:fitSmoke       # headless: synthetic pedaling -> cycle analysis -> FitEngine
-./gradlew :desktop:smokeTest \    # headless: real pose sidecar on one image
-    -PposeScript="$PWD/pose_server.py" \
-    -PposePython="$PWD/.venv/Scripts/python.exe" \
-    -PposeImage="path/to/photo.jpg"
 ./gradlew :desktop:packageMsi     # build a Windows installer (needs jpackage)
 ```
+
+For tests, formatting, static analysis, and the headless smoke checks, see
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Using the app
 
