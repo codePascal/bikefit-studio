@@ -34,7 +34,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Msi, TargetFormat.Exe)
             packageName = "BikeFitStudio"
-            packageVersion = "1.0.0"
+            packageVersion = "0.1.0"
         }
     }
 }

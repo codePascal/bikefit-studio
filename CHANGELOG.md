@@ -7,6 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - dd.mm.yyyy
 
-- Initial release.
+## [0.1.0] - 25.06.2026
 
-[Unreleased]: https://github.com/codePascal/bikefit-studio/commits/main
+- Initial release.
