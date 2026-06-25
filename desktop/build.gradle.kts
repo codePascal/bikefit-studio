@@ -33,7 +33,7 @@ compose.desktop {
         mainClass = "bikefitstudio.desktop.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Msi, TargetFormat.Exe)
-            packageName = "BikefitDesktop"
+            packageName = "BikeFitStudio"
             packageVersion = "1.0.0"
         }
     }

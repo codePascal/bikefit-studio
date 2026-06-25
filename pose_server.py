@@ -1,5 +1,5 @@
 """
-Pose sidecar for Bikefit Desktop.
+Pose sidecar for BikeFit Studio.
 
 Reads JPEG frames from stdin and writes 33-landmark BlazePose results to stdout, using the
 MediaPipe Tasks PoseLandmarker with the same `pose_landmarker_lite.task` model the Android

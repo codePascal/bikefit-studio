@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a problem with bikefit-studio
+description: Report a problem with BikeFit Studio
 labels: ["bug"]
 body:
   - type: markdown

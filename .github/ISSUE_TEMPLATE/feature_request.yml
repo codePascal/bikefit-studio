@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest an idea or improvement for bikefit-studio
+description: Suggest an idea or improvement for BikeFit Studio
 labels: ["enhancement"]
 body:
   - type: checkboxes

@@ -1,4 +1,4 @@
-# Contributing to bikefit-studio
+# Contributing to BikeFit Studio
 
 Thanks for your interest! The [README](README.md) covers the project overview, architecture,
 prerequisites, environment setup, and how to run the app — start there. This guide covers the

@@ -128,9 +128,9 @@ private fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Bikefit Desktop", style = MaterialTheme.typography.headlineMedium)
+        Text("BikeFit Studio", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(8.dp))
-        Text("Reused biomechanics core running on the JVM.")
+        Text("See your fit. Fix your fit.")
         Spacer(Modifier.height(20.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             DropdownSelector("Context: ${ridingContext.displayName}", RidingContext.entries) {
