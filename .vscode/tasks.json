@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Kotlin: format",
+      "detail": "Formats Kotlin/Gradle sources to match CI. There is no VS Code ktfmt formatter — use this instead of editor format-on-save.",
+      "type": "shell",
+      "command": "./gradlew spotlessApply",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Kotlin: check format",
+      "type": "shell",
+      "command": "./gradlew spotlessCheck",
+      "problemMatcher": []
+    },
+    {
+      "label": "Static analysis: detekt",
+      "type": "shell",
+      "command": "./gradlew detekt",
+      "problemMatcher": []
+    },
+    {
+      "label": "Tests: core",
+      "type": "shell",
+      "command": "./gradlew :core:test",
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "files.exclude": {
+    "**/.gradle": true,
+    "**/.kotlin": true,
+    "**/build": true
+  },
+  "search.exclude": {
+    "**/.gradle": true,
+    "**/.kotlin": true,
+    "**/build": true,
+    "**/.venv": true,
+    "**/models/*.task": true
+  },
+  "files.watcherExclude": {
+    "**/.gradle/**": true,
+    "**/.kotlin/**": true,
+    "**/build/**": true,
+    "**/.venv/**": true
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "editor.rulers": [100],
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  },
+  "editor.formatOnSave": false,
+  "kotlin.languageServer.enabled": true,
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "cSpell.words": [
+    "androidx",
+    "Bikefit",
+    "bikefitstudio",
+    "gradlew",
+    "imageio",
+    "jpackage",
+    "KOPS",
+    "Landmarker",
+    "venv"
+  ]
+}

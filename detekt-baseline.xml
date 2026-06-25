@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ComplexCondition:CalibrationScreen.kt$box.width == 0 || box.height == 0 || imageWidth == 0 || imageHeight == 0</ID>
+    <ID>ComplexCondition:CalibrationScreen.kt$nx &lt; 0f || nx &gt; 1f || ny &lt; 0f || ny &gt; 1f</ID>
+    <ID>CyclomaticComplexMethod:CameraScreen.kt$@Composable fun CameraScreen( sourceFactory: () -&gt; FrameSource, poseProvider: PoseProvider, onBack: () -&gt; Unit, calibration: BikeCalibration? = null, ridingContext: RidingContext = RidingContext.DEFAULT, fitBias: FitBias = FitBias.DEFAULT, onFitReady: ((FitSummary) -&gt; Unit)? = null )</ID>
+    <ID>FunctionNaming:App.kt$@Composable fun App()</ID>
+    <ID>FunctionNaming:App.kt$@Composable private fun &lt;T&gt; DropdownSelector(label: String, options: List&lt;T&gt;, onSelect: (T) -&gt; Unit)</ID>
+    <ID>FunctionNaming:App.kt$@Composable private fun HomeScreen( ridingContext: RidingContext, fitBias: FitBias, onContext: (RidingContext) -&gt; Unit, onBias: (FitBias) -&gt; Unit, onWebcam: () -&gt; Unit, onVideoFile: () -&gt; Unit, onCalibrate: () -&gt; Unit, onSelfTest: () -&gt; Unit )</ID>
+    <ID>FunctionNaming:App.kt$@Composable private fun SelfTestScreen(onBack: () -&gt; Unit)</ID>
+    <ID>FunctionNaming:CalibrationScreen.kt$@Composable fun CalibrationScreen(image: BufferedImage, onDone: (BikeCalibration) -&gt; Unit, onBack: () -&gt; Unit)</ID>
+    <ID>FunctionNaming:CalibrationScreen.kt$@Composable private fun CalibrationMarkers( points: List&lt;BikeReferencePoint&gt;, imageWidth: Int, imageHeight: Int, modifier: Modifier )</ID>
+    <ID>FunctionNaming:CameraScreen.kt$@Composable fun CameraScreen( sourceFactory: () -&gt; FrameSource, poseProvider: PoseProvider, onBack: () -&gt; Unit, calibration: BikeCalibration? = null, ridingContext: RidingContext = RidingContext.DEFAULT, fitBias: FitBias = FitBias.DEFAULT, onFitReady: ((FitSummary) -&gt; Unit)? = null )</ID>
+    <ID>FunctionNaming:FitReportScreen.kt$@Composable fun FitReportScreen(summary: FitSummary, onBack: () -&gt; Unit)</ID>
+    <ID>FunctionNaming:PoseOverlay.kt$@Composable fun PoseOverlay(pose: PoseFrame, imageWidth: Int, imageHeight: Int, modifier: Modifier = Modifier)</ID>
+    <ID>FunctionNaming:PoseOverlay.kt$@Composable fun ReferenceOverlay( calibration: BikeCalibration, pose: PoseFrame?, imageWidth: Int, imageHeight: Int, modifier: Modifier = Modifier )</ID>
+    <ID>LongMethod:CalibrationScreen.kt$@Composable fun CalibrationScreen(image: BufferedImage, onDone: (BikeCalibration) -&gt; Unit, onBack: () -&gt; Unit)</ID>
+    <ID>LongMethod:CameraScreen.kt$@Composable fun CameraScreen( sourceFactory: () -&gt; FrameSource, poseProvider: PoseProvider, onBack: () -&gt; Unit, calibration: BikeCalibration? = null, ridingContext: RidingContext = RidingContext.DEFAULT, fitBias: FitBias = FitBias.DEFAULT, onFitReady: ((FitSummary) -&gt; Unit)? = null )</ID>
+    <ID>LongParameterList:App.kt$( ridingContext: RidingContext, fitBias: FitBias, onContext: (RidingContext) -&gt; Unit, onBias: (FitBias) -&gt; Unit, onWebcam: () -&gt; Unit, onVideoFile: () -&gt; Unit, onCalibrate: () -&gt; Unit, onSelfTest: () -&gt; Unit )</ID>
+    <ID>LongParameterList:CameraScreen.kt$( sourceFactory: () -&gt; FrameSource, poseProvider: PoseProvider, onBack: () -&gt; Unit, calibration: BikeCalibration? = null, ridingContext: RidingContext = RidingContext.DEFAULT, fitBias: FitBias = FitBias.DEFAULT, onFitReady: ((FitSummary) -&gt; Unit)? = null )</ID>
+    <ID>LoopWithTooManyJumpStatements:JavaCvFrameSource.kt$JavaCvFrameSource$while</ID>
+    <ID>LoopWithTooManyJumpStatements:PoseOverlay.kt$for</ID>
+    <ID>MagicNumber:App.kt$0.1f</ID>
+    <ID>MagicNumber:App.kt$0.2f</ID>
+    <ID>MagicNumber:App.kt$0.3f</ID>
+    <ID>MagicNumber:App.kt$0.5f</ID>
+    <ID>MagicNumber:App.kt$0.6f</ID>
+    <ID>MagicNumber:App.kt$0.7f</ID>
+    <ID>MagicNumber:App.kt$0.9f</ID>
+    <ID>MagicNumber:App.kt$100L</ID>
+    <ID>MagicNumber:BikeFitAnalyzer.kt$BikeFitAnalyzer$0.5f</ID>
+    <ID>MagicNumber:BikeFitAnalyzer.kt$BikeFitAnalyzer$360f</ID>
+    <ID>MagicNumber:CalibrationScreen.kt$0xFFFF1744</ID>
+    <ID>MagicNumber:CalibrationScreen.kt$3</ID>
+    <ID>MagicNumber:CameraScreen.kt$1000.0</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$0.03f</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$0.05f</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$0.18f</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$0.25f</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$0.30f</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$0.42f</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$0.45f</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$0.5f</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$0.6f</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$0.95f</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$10</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$33L</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$360</ID>
+    <ID>MagicNumber:FitSmokeMain.kt$6</ID>
+    <ID>MagicNumber:JavaCvFrameSource.kt$JavaCvFrameSource$1000.0</ID>
+    <ID>MagicNumber:JavaCvFrameSource.kt$JavaCvFrameSource$1000L</ID>
+    <ID>MagicNumber:PoseBackend.kt$5</ID>
+    <ID>MagicNumber:PoseOverlay.kt$0xFF00E5FF</ID>
+    <ID>MagicNumber:PoseOverlay.kt$0xFF2196F3</ID>
+    <ID>MagicNumber:PoseOverlay.kt$0xFF8BC34A</ID>
+    <ID>MagicNumber:PoseOverlay.kt$0xFFFF1744</ID>
+    <ID>MagicNumber:PoseOverlay.kt$0xFFFFC107</ID>
+    <ID>MagicNumber:PoseOverlay.kt$0xFFFFEB3B</ID>
+    <ID>MagicNumber:PoseOverlay.kt$11</ID>
+    <ID>MagicNumber:PoseOverlay.kt$12</ID>
+    <ID>MagicNumber:PoseOverlay.kt$13</ID>
+    <ID>MagicNumber:PoseOverlay.kt$14</ID>
+    <ID>MagicNumber:PoseOverlay.kt$15</ID>
+    <ID>MagicNumber:PoseOverlay.kt$16</ID>
+    <ID>MagicNumber:PoseOverlay.kt$23</ID>
+    <ID>MagicNumber:PoseOverlay.kt$24</ID>
+    <ID>MagicNumber:PoseOverlay.kt$25</ID>
+    <ID>MagicNumber:PoseOverlay.kt$26</ID>
+    <ID>MagicNumber:PoseOverlay.kt$27</ID>
+    <ID>MagicNumber:PoseOverlay.kt$28</ID>
+    <ID>MagicNumber:PoseOverlay.kt$29</ID>
+    <ID>MagicNumber:PoseOverlay.kt$30</ID>
+    <ID>MagicNumber:PoseOverlay.kt$31</ID>
+    <ID>MagicNumber:PoseOverlay.kt$32</ID>
+    <ID>MagicNumber:PoseOverlay.kt$5f</ID>
+    <ID>MagicNumber:PoseOverlay.kt$6f</ID>
+    <ID>MagicNumber:PoseOverlay.kt$7f</ID>
+    <ID>MagicNumber:SidecarPoseProvider.kt$SidecarPoseProvider$5</ID>
+    <ID>MagicNumber:SmokeMain.kt$0.1f</ID>
+    <ID>MagicNumber:SmokeMain.kt$0.2f</ID>
+    <ID>MagicNumber:SmokeMain.kt$0.5f</ID>
+    <ID>MagicNumber:SmokeMain.kt$0.6f</ID>
+    <ID>MagicNumber:SmokeMain.kt$480</ID>
+    <ID>MagicNumber:SmokeMain.kt$640</ID>
+    <ID>MagicNumber:VideoSmokeMain.kt$3</ID>
+    <ID>MagicNumber:VideoSmokeMain.kt$300</ID>
+    <ID>ReturnCount:BikeFitAnalyzer.kt$BikeFitAnalyzer$private fun crankAngleDegrees(frame: PoseFrame): Float?</ID>
+    <ID>ReturnCount:CalibrationScreen.kt$private fun toNormalized( offset: Offset, box: IntSize, imageWidth: Int, imageHeight: Int ): Pair&lt;Float, Float&gt;?</ID>
+    <ID>ReturnCount:PoseBackend.kt$private fun findUpwards(relativePath: String): File?</ID>
+    <ID>ReturnCount:PoseOverlay.kt$fun point(index: Int): Offset?</ID>
+  </CurrentIssues>
+</SmellBaseline>

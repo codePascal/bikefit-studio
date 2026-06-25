@@ -1,0 +1,11 @@
+BikeFit Studio
+
+This product includes software developed by Renato Campos and contributors
+as part of the BikefitApp project, licensed under the Apache License,
+Version 2.0 (https://www.apache.org/licenses/LICENSE-2.0).
+
+Portions of the biomechanics, fit-analysis, calibration, and pose-processing
+code in the `core` module are derived from that project and reused under the
+terms of the Apache License 2.0. Modified files carry a notice of the change.
+
+Upstream project: https://github.com/ineeve/BikefitApp
