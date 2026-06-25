@@ -3,8 +3,8 @@
 BikeFit Studio analyzes side-on cycling video — from a webcam, a USB phone, or a recorded
 clip — using on-device pose estimation (MediaPipe, 33-landmark BlazePose) and rule-based
 biomechanics. It detects pedal cycles, computes joint angles and knee-over-pedal-spindle
-(KOPS), and produces graded fit recommendations (saddle height, fore/aft, reach) tuned to
-your riding context.
+(KOPS), and produces graded fit recommendations (saddle height, fore/aft, reach, hip angle)
+tuned to your riding context and bias.
 
 It reuses the biomechanics, fit-analysis, and pose-processing core of
 [BikefitApp](https://github.com/ineeve/BikefitApp) (Apache-2.0) and replaces the Android
